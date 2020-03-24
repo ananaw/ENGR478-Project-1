@@ -126,12 +126,12 @@ int main(void)
 			
 			else
 			{
-			// clear green LED			
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x00);
+			// clear red LED			
+			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00);
 			
-			// Toggle red LED. 
-			LED_data ^= 0x02;
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, LED_data);
+			// Toggle green LED. 
+			LED_data ^= 0x08;
+			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, LED_data);
 				
 			// Delay for 0.5 sec. ((25M*0.5)-2)/3 + 1 = 4166667.
 			SysCtlDelay(6666667);
@@ -150,12 +150,12 @@ int main(void)
 		
 		else
 		{
-			// clear red LED
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00);	
+			// clear green LED
+			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x00);	
 			
-			// toggle green LED
-			LED_data ^= 0x08;
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, LED_data);
+			// toggle red LED
+			LED_data ^= 0x02;
+			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, LED_data);
 			
 			// Delay for 0.5 sec. 
 			SysCtlDelay(6666667);
