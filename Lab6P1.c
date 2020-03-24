@@ -50,9 +50,6 @@
 void
 PortFunctionInit(void)
 {
-		// Set clock rate to 25MHz. (or 40MHz, divide by 5)
-		SysCtlClockSet(SYSCTL_SYSDIV_5|SYSCTL_USE_PLL|SYSCTL_XTAL_16MHZ|SYSCTL_OSC_MAIN);
-    //
     // Enable Peripheral Clocks 
     //
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
@@ -101,7 +98,9 @@ int main(void)
 	PortFunctionInit();
 	uint8_t LED_data; 						// create 8 bit unsigned integer type variable.
 	
-	
+	// Set clock rate to 400M/2/5 = 40MHz. (or 25MHz, divide by 8)
+	SysCtlClockSet(SYSCTL_SYSDIV_5|SYSCTL_USE_PLL|SYSCTL_XTAL_16MHZ|SYSCTL_OSC_MAIN);
+  //
 	//float clock = SysCtlClockGet(); 
 	
 	// Turn on red and green LED. 
