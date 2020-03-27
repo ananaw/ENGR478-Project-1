@@ -104,7 +104,7 @@ int main(void)
 	//float clock = SysCtlClockGet(); 
 	
 	// Turn on red and green LED. 
-	//GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, GPIO_PIN_3);
 	
 	//
@@ -115,6 +115,7 @@ int main(void)
 		// if SW1 is pressed.
 		if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4) == 0x00) 
 		{
+			// if SW2 is pressed. 
 			if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0x00) 
 			{
 			// clear red LED
@@ -129,12 +130,13 @@ int main(void)
 			// clear red LED			
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00);
 			
+				// Delay for 0.5 sec. ((40M*0.5)-2)/3 + 1 = 6666667.
+			SysCtlDelay((0.5*SysCtlClockGet()-2)/3 + 1);
 			// Toggle green LED. 
 			LED_data ^= 0x08;
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, LED_data);
 				
-			// Delay for 0.5 sec. ((25M*0.5)-2)/3 + 1 = 4166667.
-			SysCtlDelay(6666667);
+			
 			}
 		}
 		
@@ -148,17 +150,18 @@ int main(void)
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x00);			
 		}
 		
-		else
+		else // no switch pressed.
 		{
 			// clear green LED
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x00);	
 			
+			// Delay for 0.5 sec. 
+			SysCtlDelay((0.5*SysCtlClockGet()-2)/3 + 1);
 			// toggle red LED
 			LED_data ^= 0x02;
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, LED_data);
 			
-			// Delay for 0.5 sec. 
-			SysCtlDelay(6666667);
+			
 		}
 	}
 }
