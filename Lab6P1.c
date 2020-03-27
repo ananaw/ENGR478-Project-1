@@ -103,7 +103,7 @@ int main(void)
   //
 	//float clock = SysCtlClockGet(); 
 	
-	// Turn on red and green LED. 
+	// Turn on red and green LED. (turning on LEDs first cause longer initial delay in beginning)
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);
 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, GPIO_PIN_3);
 	
@@ -130,12 +130,12 @@ int main(void)
 			// clear red LED			
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00);
 			
-				// Delay for 0.5 sec. ((40M*0.5)-2)/3 + 1 = 6666667.
+			// Delay for 0.5 sec. ((40M*0.5)-2)/3 + 1 = 6666667.
 			SysCtlDelay((0.5*SysCtlClockGet()-2)/3 + 1);
+				
 			// Toggle green LED. 
 			LED_data ^= 0x08;
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, LED_data);
-				
 			
 			}
 		}
@@ -157,10 +157,10 @@ int main(void)
 			
 			// Delay for 0.5 sec. 
 			SysCtlDelay((0.5*SysCtlClockGet()-2)/3 + 1);
+			
 			// toggle red LED
 			LED_data ^= 0x02;
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, LED_data);
-			
 			
 		}
 	}
