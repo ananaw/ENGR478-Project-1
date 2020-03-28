@@ -44,7 +44,7 @@
 #include "driverlib/sysctl.h"
 #include "driverlib/pin_map.h"
 #include "driverlib/gpio.h"
-#include "inc/tm4c123gh6pm.h" 
+#include "inc/tm4c123gh6pm.h" 	// manually added
 
 //*****************************************************************************
 void
@@ -104,8 +104,8 @@ int main(void)
 	//float clock = SysCtlClockGet(); 
 	
 	// Turn on red and green LED. (turning on LEDs first cause longer initial delay in beginning)
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);
-	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, GPIO_PIN_3);
+	//GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);
+	//GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, GPIO_PIN_3);
 	
 	//
 	// Loop forever
