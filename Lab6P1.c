@@ -46,6 +46,7 @@
 #include "driverlib/gpio.h"
 #include "inc/tm4c123gh6pm.h" 	// manually added
 
+
 //*****************************************************************************
 void
 PortFunctionInit(void)
@@ -57,7 +58,6 @@ PortFunctionInit(void)
     //
     // Enable pin PF0 for GPIOInput (SW2)
     //
-
     //
     //First open the lock and select the bits we want to modify in the GPIO commit register.
     //
@@ -112,21 +112,18 @@ int main(void)
 	//
 	while(1)
 	{
-		// if SW1 is pressed.
-		if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4) == 0x00) 
+		// if SW2 is pressed, turn off both LEDs.
+		if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0x00) 
 		{
-			// if SW2 is pressed. 
-			if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0x00) 
-			{
 			// clear red LED
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00);
-				
+			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00);	
+			
 			// clear green LED			
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x00);			
-			}
-			
-			else
-			{
+		}
+		// if SW1 is pressed.
+		else if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4) == 0x00) 
+		{
 			// clear red LED			
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00);
 			
@@ -137,19 +134,7 @@ int main(void)
 			LED_data ^= 0x08;
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, LED_data);
 			
-			}
 		}
-		
-		// if SW2 is pressed, turn off both LEDs.
-		else if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0x00) 
-		{
-			// clear red LED
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0x00);	
-			
-			// clear green LED			
-			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0x00);			
-		}
-		
 		else // no switch pressed.
 		{
 			// clear green LED
