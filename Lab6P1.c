@@ -34,7 +34,7 @@
 // Version: 1.0.4
 //
 //*****************************************************************************
-
+#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include "Lab6P1.h"
@@ -45,9 +45,40 @@
 #include "driverlib/pin_map.h"
 #include "driverlib/gpio.h"
 #include "inc/tm4c123gh6pm.h" 	// manually added
-
+#include "utils/uartstdio.h"
+#include "driverlib/uart.h"
 
 //*****************************************************************************
+void
+ConfigureUART(void)
+{
+    //
+    // Enable the GPIO Peripheral used by the UART.
+    //
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+
+    //
+    // Enable UART0
+    //
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
+
+    //
+    // Configure GPIO Pins for UART mode.
+    //
+    GPIOPinConfigure(GPIO_PA0_U0RX); 
+    GPIOPinConfigure(GPIO_PA1_U0TX);
+    GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);
+
+    //
+    // Use the internal 16MHz oscillator as the UART clock source.
+    //
+    UARTClockSourceSet(UART0_BASE, UART_CLOCK_PIOSC);
+
+    //
+    // Initialize the UART for console I/O.
+    //
+    UARTStdioConfig(0, 115200, 16000000);
+}
 void
 PortFunctionInit(void)
 {
@@ -57,7 +88,6 @@ PortFunctionInit(void)
 
     //
     // Enable pin PF0 for GPIOInput (SW2)
-    //
     //
     //First open the lock and select the bits we want to modify in the GPIO commit register.
     //
@@ -94,6 +124,7 @@ PortFunctionInit(void)
 // Manually added code
 int main(void)
 {
+	ConfigureUART();
 	// Initiatialize GPIO ports.
 	PortFunctionInit();
 	uint8_t LED_data; 						// create 8 bit unsigned integer type variable.
@@ -101,12 +132,15 @@ int main(void)
 	// Set clock rate to 400M/2/5 = 40MHz. (or 25MHz, divide by 8)
 	SysCtlClockSet(SYSCTL_SYSDIV_5|SYSCTL_USE_PLL|SYSCTL_XTAL_16MHZ|SYSCTL_OSC_MAIN);
   //
-	//float clock = SysCtlClockGet(); 
+	float clock = SysCtlClockGet(); 
 	
 	// Turn on red and green LED. (turning on LEDs first cause longer initial delay in beginning)
 	//GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);
 	//GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, GPIO_PIN_3);
-	
+	uint32_t delay = (0.5*SysCtlClockGet()-2)/3 + 1;
+	char pstring[4] = {0}; 
+	sprintf(pstring, "%d", delay);
+	UARTprintf("%s loop count\n", pstring);
 	//
 	// Loop forever
 	//
@@ -146,11 +180,6 @@ int main(void)
 			// toggle red LED
 			LED_data ^= 0x02;
 			GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, LED_data);
-			
 		}
 	}
 }
-				
-				
-			
-		
